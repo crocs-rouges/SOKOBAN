@@ -23,7 +23,12 @@ namespace Com.IsartDigital.SOKOBAN
 			}
 			return false;
 		}
-
+		public void WhipPull()
+		{
+			Vector2I lDirection = (Vector2I)(Player.GetInstance().GlobalPosition - GlobalPosition).Normalized();
+			// Move without rolling
+			base.Move(lDirection);
+		}
 		private void Roll(Vector2 pDirection)
 		{
 			if (pDirection == Vector2.Up) RotateFaces(ref indexFaceUp, ref indexFaceFront);
@@ -35,7 +40,6 @@ namespace Com.IsartDigital.SOKOBAN
 			GD.Print($"la face avant {numberinface[indexFaceFront]}");
 			GD.Print($"la face droite {numberinface[indexFaceRight]}");
 		}
-
 		private void RotateFaces(ref int pFaceA, ref int pFaceB)
 		{
 			int lOldA = pFaceA;
