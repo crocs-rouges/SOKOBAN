@@ -9,66 +9,28 @@ namespace Com.IsartDigital.SOKOBAN
     {
         [Export] public RayCast2D rayCast;
 
-        public override void _Ready()
+        public virtual bool Move(Vector2 pDirection)
         {
-            base._Ready();
-        }
-        public virtual void Up()
-        {
-            rayCast.TargetPosition = Vector2.Up * Utils.MAP_CASE_SCALE;
+            rayCast.TargetPosition = pDirection * Utils.MAP_CASE_SCALE;
             rayCast.ForceRaycastUpdate();
-            if (rayCast.IsColliding())
-            {
-                GD.Print("hello");
-                return;
-            }
-            GlobalPosition += Vector2I.Up * Utils.MAP_CASE_SCALE;
-        }
-        public virtual void Down()
-        {
-            rayCast.TargetPosition = Vector2.Down * Utils.MAP_CASE_SCALE;
-            rayCast.ForceRaycastUpdate();
-            if (rayCast.IsColliding())
-            {
-                GD.Print("hello");
-                return;
-            }
-            GlobalPosition += Vector2I.Down * Utils.MAP_CASE_SCALE;
-        }
-        public virtual void Left()
-        {
-            rayCast.TargetPosition = Vector2.Left * Utils.MAP_CASE_SCALE;
-            rayCast.ForceRaycastUpdate();
-            if (rayCast.IsColliding())
-            {
-                GD.Print("hello");
-                return;
-            }
-            GlobalPosition += Vector2I.Left * Utils.MAP_CASE_SCALE;
-        }
-        public virtual void Right()
-        {
-            rayCast.TargetPosition = Vector2.Right * Utils.MAP_CASE_SCALE;
-            rayCast.ForceRaycastUpdate();
+
             if (rayCast.IsColliding())
             {
                 Node2D lCollider = rayCast.GetCollider() as Node2D;
-                if (lCollider.GetParent() is Dice)
+                Node2D lParent = lCollider.GetParent() as Node2D;
+                // Check if the obstacle is Movable (like a Dice) and try to push it
+                if (lParent is Movable lMovable)
                 {
-                    GD.Print("hello i'm dice");
-                    Dice lDice = (Dice)lCollider.GetParent();
-                    lDice.Right();
+                    if (!lMovable.Move(pDirection)) return false;
                 }
-                // if(lCollider.GetParent() is Wall)
-                // {
-                //     GD.Print("hello i'm wall");
-                //     return;
-                // }
-                GD.Print("hello");
-
-                return;
+                else
+                {
+                    // Blocked by a wall or static object
+                    return false;
+                }
             }
-            GlobalPosition += Vector2I.Right * Utils.MAP_CASE_SCALE;
+            GlobalPosition += (Vector2I)(pDirection * Utils.MAP_CASE_SCALE);
+            return true;
         }
     }
 }

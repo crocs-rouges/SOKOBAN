@@ -9,7 +9,7 @@ namespace Com.IsartDigital.SOKOBAN
 	{
 		private static Utils instance;
 
-		public const int MAP_CASE_SCALE = 200;
+		public const int MAP_CASE_SCALE = 128;
 
 
 

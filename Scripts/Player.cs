@@ -23,12 +23,12 @@ namespace Com.IsartDigital.SOKOBAN
 
 		public override void _Process(double pDelta)
 		{
-			float lDelta = (float)pDelta;
-			base._Process(pDelta);
-			if (Input.IsActionJustPressed("left")) Left();
-			if (Input.IsActionJustPressed("right")) Right();
-			if (Input.IsActionJustPressed("up")) Up();
-			if (Input.IsActionJustPressed("down")) Down();
+			Vector2 lDirection = Vector2.Zero;
+			if (Input.IsActionJustPressed("left")) lDirection = Vector2.Left;
+			else if (Input.IsActionJustPressed("right")) lDirection = Vector2.Right;
+			else if (Input.IsActionJustPressed("up")) lDirection = Vector2.Up;
+			else if (Input.IsActionJustPressed("down")) lDirection = Vector2.Down;
+			if (lDirection != Vector2.Zero) Move(lDirection);
 		}
 	}
 }
