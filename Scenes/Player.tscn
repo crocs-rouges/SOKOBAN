@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://86oo5012ecf7"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_humdl"]
+[ext_resource type="Texture2D" uid="uid://b4j4lqn6h5171" path="res://icon.svg" id="2_ynrhw"]
+
+[node name="Player" type="Node2D" node_paths=PackedStringArray("rayCast")]
+script = ExtResource("1_humdl")
+rayCast = NodePath("RayCast2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ynrhw")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+collide_with_areas = true

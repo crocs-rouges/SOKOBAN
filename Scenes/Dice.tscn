@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://iu0cetveefc0"]
+
+[ext_resource type="Script" path="res://Scripts/Dice.cs" id="1_b2x3y"]
+[ext_resource type="Texture2D" uid="uid://b4j4lqn6h5171" path="res://icon.svg" id="1_ejvnf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bnemw"]
+size = Vector2(128, 130)
+
+[node name="Dice" type="Node2D" node_paths=PackedStringArray("rayCast")]
+script = ExtResource("1_b2x3y")
+rayCast = NodePath("RayCast2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.991833, 0, 0.428028, 1)
+texture = ExtResource("1_ejvnf")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_bnemw")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+collide_with_areas = true
