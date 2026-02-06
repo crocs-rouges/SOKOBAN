@@ -1,18 +1,189 @@
-[gd_scene load_steps=4 format=3 uid="uid://iu0cetveefc0"]
+[gd_scene load_steps=13 format=3 uid="uid://iu0cetveefc0"]
 
 [ext_resource type="Script" path="res://Scripts/Dice.cs" id="1_b2x3y"]
-[ext_resource type="Texture2D" uid="uid://b4j4lqn6h5171" path="res://icon.svg" id="1_ejvnf"]
+[ext_resource type="Texture2D" uid="uid://wmywhikvxs5p" path="res://Assets/Dice/6.png" id="2_co0st"]
+[ext_resource type="Texture2D" uid="uid://c7dsrlo54xape" path="res://Assets/Dice/1.png" id="2_hrv71"]
+[ext_resource type="Texture2D" uid="uid://cmt2xfpbp1gvn" path="res://Assets/Dice/2.png" id="3_w5bdj"]
+[ext_resource type="Texture2D" uid="uid://jo5lm41cmwiw" path="res://Assets/Dice/3.png" id="4_ihri0"]
+[ext_resource type="Texture2D" uid="uid://dd2g4rghnelr5" path="res://Assets/Dice/4.png" id="5_q02r7"]
+[ext_resource type="Texture2D" uid="uid://5uhol1h1oc00" path="res://Assets/Dice/5.png" id="6_hpybc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnemw"]
 size = Vector2(128, 130)
 
-[node name="Dice" type="Node2D" node_paths=PackedStringArray("rayCast")]
+[sub_resource type="Animation" id="Animation_ygxly"]
+resource_name = "Bounce"
+length = 2.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5, 0.9, 1.1, 1.3, 1.5, 1.7, 1.8, 1.9, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 21.6), Vector2(0, -21), Vector2(0, -88.575), Vector2(0, -114.535), Vector2(0, -88.575), Vector2(0, -63.41), Vector2(0, -21), Vector2(0, 21.725), Vector2(0, 52.24), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.9, 1.3, 1.5, 1.7, 1.8, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, -0.298451, -0.298451, 0.0, 0.0, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5, 1.5, 1.7, 1.8, 1.9, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(8.5, 8.5), Vector2(10.89, 5.34), Vector2(4.995, 8.5), Vector2(4.995, 8.5), Vector2(4.995, 8.5), Vector2(4.995, 4.335), Vector2(16.8, 1.375), Vector2(8.5, 8.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.9, 1.3, 1.5, 1.7, 1.8, 2.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.298451, 0.298451, 0.0, 0.0, 0.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_wyixi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8.5, 8.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_7n8g1"]
+resource_name = "Roll"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 20), Vector2(0, 40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.198968, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(8.5, 8.5), Vector2(8.5, 8.5), Vector2(10, 8.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -1.19555, -1.56905]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_urxg1"]
+_data = {
+"Bounce": SubResource("Animation_ygxly"),
+"RESET": SubResource("Animation_wyixi"),
+"Roll": SubResource("Animation_7n8g1")
+}
+
+[node name="Dice" type="Node2D" node_paths=PackedStringArray("sprite", "rayCast")]
+z_index = 10
 script = ExtResource("1_b2x3y")
+sprite = NodePath("Sprite2D")
+faceTextures = Array[Texture2D]([ExtResource("2_hrv71"), ExtResource("3_w5bdj"), ExtResource("4_ihri0"), ExtResource("5_q02r7"), ExtResource("6_hpybc"), ExtResource("2_co0st")])
 rayCast = NodePath("RayCast2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.991833, 0, 0.428028, 1)
-texture = ExtResource("1_ejvnf")
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("2_co0st")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -22,3 +193,9 @@ shape = SubResource("RectangleShape2D_bnemw")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, 200)
 collide_with_areas = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_urxg1")
+}
+autoplay = "Bounce"

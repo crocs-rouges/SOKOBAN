@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvfa6grxlrjaw"]
+[gd_scene load_steps=7 format=3 uid="uid://cvfa6grxlrjaw"]
 
 [ext_resource type="PackedScene" uid="uid://86oo5012ecf7" path="res://Scenes/Player.tscn" id="1_ynoah"]
+[ext_resource type="Script" path="res://Scripts/GridManager.cs" id="2_0gnbs"]
 [ext_resource type="Script" path="res://Scripts/Utils/Utils.cs" id="3_78wxw"]
 [ext_resource type="PackedScene" uid="uid://iu0cetveefc0" path="res://Scenes/Dice.tscn" id="4_rit8m"]
 [ext_resource type="PackedScene" uid="uid://b5nbxnjau3msm" path="res://Scenes/Finish.tscn" id="5_7asbl"]
@@ -8,17 +9,20 @@
 
 [node name="Main" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_ynoah")]
-position = Vector2(65, 66)
-
 [node name="Node" type="Node" parent="."]
 script = ExtResource("3_78wxw")
 
-[node name="Dice" parent="." instance=ExtResource("4_rit8m")]
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("2_0gnbs")
+
+[node name="Dice" parent="Grid" instance=ExtResource("4_rit8m")]
 position = Vector2(199, 70)
 
-[node name="Bloc" parent="." instance=ExtResource("5_jay3n")]
+[node name="Bloc" parent="Grid" instance=ExtResource("5_jay3n")]
 position = Vector2(65, 198)
 
-[node name="Finish" parent="." instance=ExtResource("5_7asbl")]
+[node name="Finish" parent="Grid" instance=ExtResource("5_7asbl")]
 position = Vector2(1107, 583)
+
+[node name="Player" parent="Grid" instance=ExtResource("1_ynoah")]
+position = Vector2(65, 66)

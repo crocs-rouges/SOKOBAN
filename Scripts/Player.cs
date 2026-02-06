@@ -34,15 +34,30 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public void WhipPull()
 		{
+			GD.Print("Whip pull");
+			bool lIsMoving = false;
 			rayCast.TargetPosition *= 2;
 			rayCast.ForceRaycastUpdate();
 			if (rayCast.IsColliding())
 			{
 				Node2D lCollider = rayCast.GetCollider() as Node2D;
 				Node2D lParent = lCollider.GetParent() as Node2D;
-				if (lParent is Dice lDice) lDice.WhipPull();
+				if (lParent is Dice lDice)
+				{
+					Vector2I lDirection = (Vector2I)((GlobalPosition - lDice.GlobalPosition) / Utils.MAP_CASE_SCALE);
+					// lDirection /= Utils.MAP_CASE_SCALE;
+					if (lDirection.X > 1) lDirection.X = 1;
+					else if (lDirection.X < -1) lDirection.X = -1;
+					if (lDirection.Y > 1) lDirection.Y = 1;
+					else if (lDirection.Y < -1) lDirection.Y = -1;
+					GD.Print(lDirection);
+					lDice.WhipPull(lDirection);
+					lIsMoving = Move(lDirection);
+				}
 			}
-			rayCast.TargetPosition /= 2;
+			rayCast.TargetPosition *= -1;
+			rayCast.ForceRaycastUpdate();
+			if (!lIsMoving) rayCast.TargetPosition /= 2;
 		}
 	}
 }

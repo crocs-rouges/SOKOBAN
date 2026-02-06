@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // Author : Romain Chevalier
 
@@ -8,8 +9,9 @@ namespace Com.IsartDigital.SOKOBAN
 {
 	public partial class Dice : Movable
 	{
+		[Export] private Sprite2D sprite;
 		public List<int> numberinface = new List<int>() { 1, 2, 3, 4, 5, 6 };
-		public List<Texture2D> listTextureFace; //for later
+		[Export] public Texture2D[] faceTextures; //for later
 		public int indexFaceUp = 0;
 		public int indexFaceFront = 1;
 		public int indexFaceRight = 2;
@@ -23,11 +25,9 @@ namespace Com.IsartDigital.SOKOBAN
 			}
 			return false;
 		}
-		public void WhipPull()
+		public bool WhipPull(Vector2 pDirection)
 		{
-			Vector2I lDirection = (Vector2I)(Player.GetInstance().GlobalPosition - GlobalPosition).Normalized();
-			// Move without rolling
-			base.Move(lDirection);
+			return base.Move(pDirection);
 		}
 		private void Roll(Vector2 pDirection)
 		{
@@ -35,6 +35,8 @@ namespace Com.IsartDigital.SOKOBAN
 			else if (pDirection == Vector2.Down) RotateFaces(ref indexFaceFront, ref indexFaceUp);
 			else if (pDirection == Vector2.Left) RotateFaces(ref indexFaceUp, ref indexFaceRight);
 			else if (pDirection == Vector2.Right) RotateFaces(ref indexFaceRight, ref indexFaceUp);
+
+			UpdateVisuals();
 
 			GD.Print($"la face du dessus {numberinface[indexFaceUp]}");
 			GD.Print($"la face avant {numberinface[indexFaceFront]}");
@@ -45,6 +47,11 @@ namespace Com.IsartDigital.SOKOBAN
 			int lOldA = pFaceA;
 			pFaceA = pFaceB;
 			pFaceB = numberinface.Count - 1 - lOldA;
+		}
+		private void UpdateVisuals()
+		{
+			if (faceTextures == null || faceTextures.Count() <= indexFaceUp) return;
+			sprite.Texture = faceTextures[indexFaceUp];
 		}
 	}
 }
