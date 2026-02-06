@@ -12,17 +12,17 @@
 [node name="Node" type="Node" parent="."]
 script = ExtResource("3_78wxw")
 
-[node name="Grid" type="Node2D" parent="."]
+[node name="GridContainer" type="Node2D" parent="."]
 script = ExtResource("2_0gnbs")
 
-[node name="Dice" parent="Grid" instance=ExtResource("4_rit8m")]
+[node name="Dice" parent="GridContainer" instance=ExtResource("4_rit8m")]
 position = Vector2(199, 70)
 
-[node name="Bloc" parent="Grid" instance=ExtResource("5_jay3n")]
+[node name="Bloc" parent="GridContainer" instance=ExtResource("5_jay3n")]
 position = Vector2(65, 198)
 
-[node name="Finish" parent="Grid" instance=ExtResource("5_7asbl")]
-position = Vector2(1107, 583)
+[node name="Finish" parent="GridContainer" instance=ExtResource("5_7asbl")]
+position = Vector2(577, 330)
 
-[node name="Player" parent="Grid" instance=ExtResource("1_ynoah")]
+[node name="Player" parent="GridContainer" instance=ExtResource("1_ynoah")]
 position = Vector2(65, 66)

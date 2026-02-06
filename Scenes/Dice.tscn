@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://5uhol1h1oc00" path="res://Assets/Dice/5.png" id="6_hpybc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnemw"]
-size = Vector2(128, 130)
+size = Vector2(114, 118)
 
 [sub_resource type="Animation" id="Animation_ygxly"]
 resource_name = "Bounce"

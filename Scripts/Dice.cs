@@ -16,7 +16,7 @@ namespace Com.IsartDigital.SOKOBAN
 		public int indexFaceFront = 1;
 		public int indexFaceRight = 2;
 
-		public override bool Move(Vector2 pDirection)
+		public override bool Move(Vector2I pDirection)
 		{
 			if (base.Move(pDirection))
 			{
@@ -25,7 +25,7 @@ namespace Com.IsartDigital.SOKOBAN
 			}
 			return false;
 		}
-		public bool WhipPull(Vector2 pDirection)
+		public bool WhipPull(Vector2I pDirection)
 		{
 			return base.Move(pDirection);
 		}

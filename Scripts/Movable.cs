@@ -9,11 +9,9 @@ namespace Com.IsartDigital.SOKOBAN
     {
         [Export] public RayCast2D rayCast;
 
-        public virtual bool Move(Vector2 pDirection)
+        public virtual bool Move(Vector2I pDirection)
         {
-            rayCast.TargetPosition = pDirection * Utils.MAP_CASE_SCALE;
-            rayCast.ForceRaycastUpdate();
-
+            RotationPhysics(pDirection);
             if (rayCast.IsColliding())
             {
                 Node2D lCollider = rayCast.GetCollider() as Node2D;
@@ -30,8 +28,20 @@ namespace Com.IsartDigital.SOKOBAN
                     return false;
                 }
             }
-            GlobalPosition += (Vector2I)(pDirection * Utils.MAP_CASE_SCALE);
+            GlobalPosition += pDirection * Utils.MAP_CASE_SCALE;
             return true;
+        }
+        public virtual void RotationPhysics(Vector2I pDirection)
+        {
+            rayCast.TargetPosition = pDirection * Utils.MAP_CASE_SCALE;
+            rayCast.ForceRaycastUpdate();
+            // LookAt(pDirection);
+        }
+        public virtual void RotateRaycastRight(bool pIsTurningRight)
+        {
+            float lRotation = pIsTurningRight ? 90 : -90;
+            rayCast.TargetPosition = rayCast.TargetPosition.Rotated(Mathf.DegToRad(lRotation));
+            rayCast.ForceRaycastUpdate();
         }
     }
 }

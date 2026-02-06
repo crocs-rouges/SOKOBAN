@@ -31,6 +31,11 @@ namespace Com.IsartDigital.SOKOBAN
 
 			//whip feature / special feature
 			if (Input.IsActionJustPressed("Whip")) WhipPull();
+
+			//rotation
+			if (Input.IsActionJustPressed("RotateLeft")) RotateRaycastRight(false);
+			if (Input.IsActionJustPressed("RotateRight")) RotateRaycastRight(true);
+
 		}
 		public void WhipPull()
 		{
@@ -46,13 +51,13 @@ namespace Com.IsartDigital.SOKOBAN
 				{
 					Vector2I lDirection = (Vector2I)((GlobalPosition - lDice.GlobalPosition) / Utils.MAP_CASE_SCALE);
 					// lDirection /= Utils.MAP_CASE_SCALE;
+					GD.Print("lDirection : " + lDirection + " direction : " + (GlobalPosition - lDice.GlobalPosition));
 					if (lDirection.X > 1) lDirection.X = 1;
 					else if (lDirection.X < -1) lDirection.X = -1;
 					if (lDirection.Y > 1) lDirection.Y = 1;
 					else if (lDirection.Y < -1) lDirection.Y = -1;
-					GD.Print(lDirection);
-					lDice.WhipPull(lDirection);
 					lIsMoving = Move(lDirection);
+					if (lIsMoving) lDice.WhipPull(lDirection);
 				}
 			}
 			rayCast.TargetPosition *= -1;

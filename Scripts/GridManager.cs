@@ -20,10 +20,13 @@ namespace Com.IsartDigital.SOKOBAN
 		{
 			instance = this;
 			base._Ready();
+			// PlaceObjectOnGrid();
+			GridSnap();
 		}
 		public void PlaceObjectOnGrid()
 		{
 			int lFirstListCount = grid.Count;
+			if (lFirstListCount == 0) return;
 			for (int i = 0; i < lFirstListCount; i++)
 			{
 				int lSecondListCount = grid[i].Count;
@@ -33,7 +36,15 @@ namespace Com.IsartDigital.SOKOBAN
 					lNode.GlobalPosition = new Vector2I(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
 				}
 			}
-
+		}
+		public void GridSnap()
+		{
+			foreach (Node2D lObject in GetChildren())
+			{
+				float lPosX = Mathf.Round(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				float lPosY = Mathf.Round(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
+			}
 		}
 	}
 }
