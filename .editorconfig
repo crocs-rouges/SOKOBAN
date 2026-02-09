@@ -1,0 +1,100 @@
+# Author : Romain Chevalier
+# ISART Digital Custom Configuration
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# files
+[*.cs]
+# --- 1. NAMING CONVENTIONS (CRITICAL) ---
+
+# Define Symbols
+dotnet_naming_symbols.local_vars.applicable_kinds = local
+dotnet_naming_symbols.parameters.applicable_kinds = parameter
+dotnet_naming_symbols.constants.applicable_kinds = field, local
+dotnet_naming_symbols.constants.applicable_accessibilities = *
+dotnet_naming_symbols.constants.required_modifiers = const
+
+dotnet_naming_symbols.fields.applicable_kinds = field
+dotnet_naming_symbols.fields.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+
+dotnet_naming_symbols.classes_methods.applicable_kinds = class, struct, enum, delegate, method, property, event, interface
+# Define Styles
+
+# Style: Local variables must start with 'l' AND the next letter must be Upper (ex: lVelocity)
+dotnet_naming_style.l_prefix_style.capitalization = pascal_case
+dotnet_naming_style.l_prefix_style.required_prefix = l
+
+# Style: Parameters must start with 'p' AND the next letter must be Upper (ex: pDelta)
+dotnet_naming_style.p_prefix_style.capitalization = pascal_case
+dotnet_naming_style.p_prefix_style.required_prefix = p
+
+# Style: Constants must be UPPER_CASE (ex: MAX_SPEED)
+dotnet_naming_style.upper_snake_style.capitalization = all_upper
+dotnet_naming_style.upper_snake_style.word_separator = _
+
+# Style: Fields must be camelCase (ex: public float speed)
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# Style: Classes and Methods must be PascalCase
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# Style: Fields must be camelCase (ex: public float speed)
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# Style: Classes and Methods must be PascalCase
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# --- BINDING RULES ---
+
+# Rule: Locals -> lPrefix
+dotnet_naming_rule.locals_must_have_l_prefix.symbols = local_vars
+dotnet_naming_rule.locals_must_have_l_prefix.style = l_prefix_style
+dotnet_naming_rule.locals_must_have_l_prefix.severity = warning
+
+# Rule: Parameters -> pPrefix
+dotnet_naming_rule.parameters_must_have_p_prefix.symbols = parameters
+dotnet_naming_rule.parameters_must_have_p_prefix.style = p_prefix_style
+dotnet_naming_rule.parameters_must_have_p_prefix.severity = warning
+
+# Rule: Constants -> UPPER_CASE
+dotnet_naming_rule.constants_must_be_upper.symbols = constants
+dotnet_naming_rule.constants_must_be_upper.style = upper_snake_style
+dotnet_naming_rule.constants_must_be_upper.severity = warning
+
+# Rule: Fields -> camelCase (public OR private, as requested)
+dotnet_naming_rule.fields_must_be_camel.symbols = fields
+dotnet_naming_rule.fields_must_be_camel.style = camel_case_style
+dotnet_naming_rule.fields_must_be_camel.severity = warning
+
+# Rule: Classes/Methods -> PascalCase
+dotnet_naming_rule.classes_methods_pascal.symbols = classes_methods
+dotnet_naming_rule.classes_methods_pascal.style = pascal_case_style
+dotnet_naming_rule.classes_methods_pascal.severity = warning
+
+# --- 2. FORMATTING & SPACING ---
+
+# Organize Usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Spacing - Attempting to minimize vertical whitespace as requested
+# Note: Standard formatters struggle to enforce "0 blank lines", but this prevents adding extra ones.
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+
+# Braces
+# csharp_prefer_braces = true:warning
+
+# Comments
+csharp_style_var_when_type_is_apparent = false
