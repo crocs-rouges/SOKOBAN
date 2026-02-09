@@ -16,13 +16,70 @@ script = ExtResource("3_78wxw")
 script = ExtResource("2_0gnbs")
 
 [node name="Dice" parent="GridContainer" instance=ExtResource("4_rit8m")]
-position = Vector2(199, 70)
-
-[node name="Bloc" parent="GridContainer" instance=ExtResource("5_jay3n")]
-position = Vector2(65, 198)
+position = Vector2(375, 353)
+indexFaceUp = 4
+indexFaceFront = 5
 
 [node name="Finish" parent="GridContainer" instance=ExtResource("5_7asbl")]
-position = Vector2(577, 330)
+position = Vector2(104, 69)
+finishIndex = 2
 
 [node name="Player" parent="GridContainer" instance=ExtResource("1_ynoah")]
-position = Vector2(65, 66)
+position = Vector2(375, 502)
+
+[node name="Bloc" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(375, 658)
+
+[node name="Bloc4" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(516, 658)
+
+[node name="Bloc5" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(659, 658)
+
+[node name="Bloc6" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(659, 527)
+
+[node name="Bloc7" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(659, 394)
+
+[node name="Bloc8" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(659, 255)
+
+[node name="Bloc9" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(659, 121)
+
+[node name="Bloc10" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(659, -12)
+
+[node name="Bloc11" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(524, -12)
+
+[node name="Bloc12" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(389, -12)
+
+[node name="Bloc13" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(258, -12)
+
+[node name="Bloc14" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(120, -12)
+
+[node name="Bloc15" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(-20, -12)
+
+[node name="Bloc16" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(-20, 118)
+
+[node name="Bloc17" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(-20, 251)
+
+[node name="Bloc18" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(-20, 380)
+
+[node name="Bloc19" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(-20, 520)
+
+[node name="Bloc2" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(238, 658)
+
+[node name="Bloc3" parent="GridContainer" instance=ExtResource("5_jay3n")]
+position = Vector2(71, 658)

@@ -8,7 +8,7 @@ size = Vector2(114, 116)
 [node name="Bloc" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.167413, 0.713832, 0, 1)
+self_modulate = Color(1, 0.267572, 0.531759, 1)
 texture = ExtResource("1_d2qw1")
 
 [node name="Area2D" type="Area2D" parent="."]

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 // Author : Romain Chevalier
 
@@ -9,11 +8,13 @@ namespace Com.IsartDigital.SOKOBAN
 	{
 		private Area2D area;
 		[Export] public int finishIndex;
+		[Export] public Sprite2D sprite;
 
 		public override void _Ready()
 		{
 			base._Ready();
-			area = GetNode<Area2D>("Area2D");
+			sprite.Texture = Dice.FaceTexturesSt[finishIndex];
+            area = GetNode<Area2D>("Area2D");
 			if (area != null)
 				area.AreaEntered += (Area2D pArea) => CheckDiceFace(pArea);
 		}

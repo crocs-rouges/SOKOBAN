@@ -174,15 +174,41 @@ _data = {
 "Roll": SubResource("Animation_7n8g1")
 }
 
-[node name="Dice" type="Node2D" node_paths=PackedStringArray("sprite", "rayCast")]
+[node name="Dice" type="Node2D" node_paths=PackedStringArray("sprite", "rightFace", "backFace", "frontFace", "leftFace", "rayCast")]
 z_index = 10
 script = ExtResource("1_b2x3y")
 sprite = NodePath("Sprite2D")
+rightFace = NodePath("SideFaces/Right")
+backFace = NodePath("SideFaces/Back")
+frontFace = NodePath("SideFaces/Front")
+leftFace = NodePath("SideFaces/Left")
 faceTextures = Array[Texture2D]([ExtResource("2_hrv71"), ExtResource("3_w5bdj"), ExtResource("4_ihri0"), ExtResource("5_q02r7"), ExtResource("6_hpybc"), ExtResource("2_co0st")])
 rayCast = NodePath("RayCast2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(8.5, 8.5)
+texture = ExtResource("2_co0st")
+
+[node name="SideFaces" type="Node2D" parent="."]
+
+[node name="Right" type="Sprite2D" parent="SideFaces"]
+position = Vector2(134, 0)
+scale = Vector2(4.25, 4.25)
+texture = ExtResource("2_co0st")
+
+[node name="Left" type="Sprite2D" parent="SideFaces"]
+position = Vector2(-134, 0)
+scale = Vector2(4.25, 4.25)
+texture = ExtResource("2_co0st")
+
+[node name="Front" type="Sprite2D" parent="SideFaces"]
+position = Vector2(0, 134)
+scale = Vector2(4.25, 4.25)
+texture = ExtResource("2_co0st")
+
+[node name="Back" type="Sprite2D" parent="SideFaces"]
+position = Vector2(0, -134)
+scale = Vector2(4.25, 4.25)
 texture = ExtResource("2_co0st")
 
 [node name="Area2D" type="Area2D" parent="."]

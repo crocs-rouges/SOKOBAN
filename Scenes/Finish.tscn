@@ -1,17 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://b5nbxnjau3msm"]
 
 [ext_resource type="Script" path="res://Scripts/FinishZone.cs" id="1_50hi5"]
-[ext_resource type="Texture2D" uid="uid://b4j4lqn6h5171" path="res://icon.svg" id="1_85ary"]
+[ext_resource type="Texture2D" uid="uid://c7dsrlo54xape" path="res://Assets/Dice/1.png" id="2_xkecc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_giymp"]
 size = Vector2(112, 114)
 
-[node name="Finish" type="Node2D"]
+[node name="Finish" type="Node2D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_50hi5")
+sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(1, 0.756006, 0, 1)
-texture = ExtResource("1_85ary")
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("2_xkecc")
 
 [node name="Area2D" type="Area2D" parent="."]
 
