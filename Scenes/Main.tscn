@@ -17,8 +17,6 @@ script = ExtResource("2_0gnbs")
 
 [node name="Dice" parent="GridContainer" instance=ExtResource("4_rit8m")]
 position = Vector2(375, 353)
-indexFaceUp = 4
-indexFaceFront = 5
 
 [node name="Finish" parent="GridContainer" instance=ExtResource("5_7asbl")]
 position = Vector2(104, 69)

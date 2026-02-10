@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://blyj4omh7qukn"]
+
+[ext_resource type="Script" path="res://Scripts/Utils/Utils.cs" id="1_2cdvu"]
+[ext_resource type="Script" path="res://Scripts/GridManager.cs" id="2_u1tk3"]
+[ext_resource type="PackedScene" uid="uid://iu0cetveefc0" path="res://Scenes/Dice.tscn" id="3_3cq1d"]
+[ext_resource type="PackedScene" uid="uid://b5nbxnjau3msm" path="res://Scenes/Finish.tscn" id="4_t18ie"]
+[ext_resource type="PackedScene" uid="uid://86oo5012ecf7" path="res://Scenes/Player.tscn" id="5_h1q2n"]
+[ext_resource type="PackedScene" uid="uid://t8qt50tb1hhi" path="res://Scenes/Bloc.tscn" id="6_io1ym"]
+
+[node name="Level2" type="Node2D"]
+
+[node name="Utils" type="Node" parent="."]
+script = ExtResource("1_2cdvu")
+
+[node name="GridContainer" type="Node2D" parent="."]
+script = ExtResource("2_u1tk3")
+
+[node name="Dice" parent="GridContainer" instance=ExtResource("3_3cq1d")]
+position = Vector2(375, 353)
+
+[node name="Finish" parent="GridContainer" instance=ExtResource("4_t18ie")]
+position = Vector2(384, 121)
+finishIndex = 5
+
+[node name="Player" parent="GridContainer" instance=ExtResource("5_h1q2n")]
+position = Vector2(375, 502)
+
+[node name="bloc container" type="Node2D" parent="GridContainer"]
+position = Vector2(375, 658)
+
+[node name="Bloc" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+
+[node name="Bloc4" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(141, 0)
+
+[node name="Bloc5" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(-138, -152)
+
+[node name="Bloc6" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(-143, 1)
+
+[node name="Bloc7" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(137, -161)
+
+[node name="Bloc8" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(135, -306)
+
+[node name="Bloc9" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(135, -435)
+
+[node name="Bloc11" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(149, -670)
+
+[node name="Bloc12" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(14, -670)
+
+[node name="Bloc13" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(-117, -670)
+
+[node name="Bloc14" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(-119, -530)
+
+[node name="Bloc16" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(149, -532)
+
+[node name="Bloc19" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(-132, -448)
+
+[node name="Bloc3" parent="GridContainer/bloc container" instance=ExtResource("6_io1ym")]
+position = Vector2(-136, -318)
