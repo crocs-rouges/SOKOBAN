@@ -183,40 +183,48 @@ backFace = NodePath("SideFaces/Back")
 frontFace = NodePath("SideFaces/Front")
 leftFace = NodePath("SideFaces/Left")
 faceTextures = Array[Texture2D]([ExtResource("2_hrv71"), ExtResource("3_w5bdj"), ExtResource("4_ihri0"), ExtResource("5_q02r7"), ExtResource("6_hpybc"), ExtResource("2_co0st")])
+indexFaceRight = 3
 rayCast = NodePath("RayCast2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
 scale = Vector2(8.5, 8.5)
 texture = ExtResource("2_co0st")
 
 [node name="SideFaces" type="Node2D" parent="."]
 
 [node name="Right" type="Sprite2D" parent="SideFaces"]
+z_index = -1
 position = Vector2(134, 0)
 scale = Vector2(4.25, 4.25)
 texture = ExtResource("2_co0st")
 
 [node name="Left" type="Sprite2D" parent="SideFaces"]
+z_index = -1
 position = Vector2(-134, 0)
 scale = Vector2(4.25, 4.25)
 texture = ExtResource("2_co0st")
 
 [node name="Front" type="Sprite2D" parent="SideFaces"]
+z_index = -1
 position = Vector2(0, 134)
 scale = Vector2(4.25, 4.25)
 texture = ExtResource("2_co0st")
 
 [node name="Back" type="Sprite2D" parent="SideFaces"]
+z_index = -1
 position = Vector2(0, -134)
 scale = Vector2(4.25, 4.25)
 texture = ExtResource("2_co0st")
 
 [node name="Area2D" type="Area2D" parent="."]
+z_index = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_bnemw")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+z_index = 10
 target_position = Vector2(0, 200)
 collide_with_areas = true
 

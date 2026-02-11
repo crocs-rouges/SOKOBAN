@@ -36,6 +36,8 @@ namespace Com.IsartDigital.SOKOBAN
 			if (Input.IsActionJustPressed("RotateLeft")) RotateRaycastRight(false);
 			if (Input.IsActionJustPressed("RotateRight")) RotateRaycastRight(true);
 
+			//retry
+			if (Input.IsActionJustPressed("Retry")) GetTree().ReloadCurrentScene();
 		}
 		public void WhipPull()
 		{

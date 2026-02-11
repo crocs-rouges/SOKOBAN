@@ -11,5 +11,6 @@ rayCast = NodePath("RayCast2D")
 texture = ExtResource("2_ynrhw")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+z_index = 10
 target_position = Vector2(0, 200)
 collide_with_areas = true

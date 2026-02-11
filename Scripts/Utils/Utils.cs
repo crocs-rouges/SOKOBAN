@@ -11,8 +11,6 @@ namespace Com.IsartDigital.SOKOBAN
 
 		public const int MAP_CASE_SCALE = 128;
 
-
-
 		public static Utils GetInstance()
 		{
 			if (instance == null) instance = new Utils();
