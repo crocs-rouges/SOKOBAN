@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://2h4p85eibnob"]
+
+[ext_resource type="Script" path="res://Scripts/Casino_case.cs" id="1_k1mtu"]
+[ext_resource type="PackedScene" uid="uid://t8qt50tb1hhi" path="res://Scenes/Bloc.tscn" id="2_q27mr"]
+[ext_resource type="Texture2D" uid="uid://dh3041ggojc4e" path="res://Assets/wall.png" id="2_u76hv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nfdsp"]
+size = Vector2(112, 114)
+
+[node name="Casino_case" type="Node2D"]
+script = ExtResource("1_k1mtu")
+blocscene = ExtResource("2_q27mr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("2_u76hv")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_nfdsp")

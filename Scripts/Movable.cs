@@ -22,6 +22,7 @@ namespace Com.IsartDigital.SOKOBAN
                     if (!lMovable.Move(pDirection)) return false;
                 }
                 else if (lParent is FinishZone) { }
+                else if (lParent is Casino_case) { }
                 else
                 {
                     // Blocked by a wall or static object
