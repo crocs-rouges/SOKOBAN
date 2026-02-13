@@ -85,3 +85,7 @@ position = Vector2(238, 658)
 
 [node name="Bloc3" parent="GridContainer" instance=ExtResource("6_l00qs")]
 position = Vector2(71, 658)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(356, 324)
+zoom = Vector2(0.715, 0.715)

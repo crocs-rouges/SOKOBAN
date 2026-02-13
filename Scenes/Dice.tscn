@@ -174,9 +174,10 @@ _data = {
 "Roll": SubResource("Animation_7n8g1")
 }
 
-[node name="Dice" type="Node2D" node_paths=PackedStringArray("sprite", "rightFace", "backFace", "frontFace", "leftFace", "rayCast")]
+[node name="Dice" type="Node2D" node_paths=PackedStringArray("rollPivot", "sprite", "rightFace", "backFace", "frontFace", "leftFace", "rayCast")]
 z_index = 10
 script = ExtResource("1_b2x3y")
+rollPivot = NodePath("Node2D")
 sprite = NodePath("Sprite2D")
 rightFace = NodePath("SideFaces/Right")
 backFace = NodePath("SideFaces/Back")
@@ -232,3 +233,5 @@ collide_with_areas = true
 libraries = {
 "": SubResource("AnimationLibrary_urxg1")
 }
+
+[node name="Node2D" type="Node2D" parent="."]
