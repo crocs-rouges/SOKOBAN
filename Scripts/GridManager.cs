@@ -40,7 +40,6 @@ namespace Com.IsartDigital.SOKOBAN
 			instance = this;
 			base._Ready();
 			ConvertListIntToNodeList(testLoadingGrid);
-			// PlaceObjectOnGrid();
 			GridSnap();
 			InitMovableGrid();
 		}
@@ -69,7 +68,6 @@ namespace Com.IsartDigital.SOKOBAN
 			int lFirstListCount = pGrid.Count;
 			if (lFirstListCount == 0) return;
 			Vector2 lPosition;
-			//init static grid
 			InitStaticGrid(pGrid);
 			for (int i = 0; i < lFirstListCount; i++)
 			{
@@ -138,6 +136,15 @@ namespace Com.IsartDigital.SOKOBAN
 				lObject.QueueFree();
 			}
 		}
+		public void GridSnap()
+		{
+			foreach (Node2D lObject in GetChildren())
+			{
+				float lPosX = Mathf.Round(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				float lPosY = Mathf.Round(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
+			}
+		}
 		#region Move
 		public bool MoveFromPos(Vector2 pPosition, Vector2I pDirection)
 		{
@@ -165,16 +172,5 @@ namespace Com.IsartDigital.SOKOBAN
 			return true;
 		}
 		#endregion
-
-		public void GridSnap()
-		{
-			foreach (Node2D lObject in GetChildren())
-			{
-				float lPosX = Mathf.Round(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
-				float lPosY = Mathf.Round(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
-				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
-			}
-		}
-
 	}
 }

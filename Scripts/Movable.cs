@@ -11,25 +11,6 @@ namespace Com.IsartDigital.SOKOBAN
 
         public virtual bool Move(Vector2I pDirection)
         {
-            RotationPhysics(pDirection);
-            // if (rayCast.IsColliding())
-            // {
-            //     Node2D lCollider = rayCast.GetCollider() as Node2D;
-            //     Node2D lParent = lCollider.GetParent() as Node2D;
-            //     // Check if the obstacle is Movable (like a Dice) and try to push it
-            //     if (lParent is Movable lMovable)
-            //     {
-            //         if (!lMovable.Move(pDirection)) return false;
-            //     }
-            //     else if (lParent is FinishZone) { }
-            //     else if (lParent is Casino_case) { }
-            //     else
-            //     {
-            //         // Blocked by a wall or static object
-            //         return false;
-            //     }
-            // }
-
             GridManager lGrid = GridManager.GetInstance();
             Vector2I lPos = Utils.PositionToGridPosition(GlobalPosition);
             Vector2I lEndPos = lPos + pDirection;
@@ -51,11 +32,31 @@ namespace Com.IsartDigital.SOKOBAN
             else return false;
             return true;
         }
+        private void MoveByRaycast()
+        {
+            // RotationPhysics(pDirection);
+            // if (rayCast.IsColliding())
+            // {
+            //     Node2D lCollider = rayCast.GetCollider() as Node2D;
+            //     Node2D lParent = lCollider.GetParent() as Node2D;
+            //     // Check if the obstacle is Movable (like a Dice) and try to push it
+            //     if (lParent is Movable lMovable)
+            //     {
+            //         if (!lMovable.Move(pDirection)) return false;
+            //     }
+            //     else if (lParent is FinishZone) { }
+            //     else if (lParent is Casino_case) { }
+            //     else
+            //     {
+            //         // Blocked by a wall or static object
+            //         return false;
+            //     }
+            // }
+        }
         public virtual void RotationPhysics(Vector2I pDirection)
         {
             rayCast.TargetPosition = pDirection * Utils.MAP_CASE_SCALE;
             rayCast.ForceRaycastUpdate();
-            // LookAt(pDirection);
         }
         public virtual void RotateRaycastRight(bool pIsTurningRight)
         {
