@@ -34,5 +34,18 @@ namespace Com.IsartDigital.SOKOBAN
 			lTimer.Start();
 			return lTimer;
 		}
+		public static Vector2I PositionToGridPosition(Vector2 pPosition)
+		{
+			int lPosX = (int)Mathf.Round(pPosition.X / MAP_CASE_SCALE);
+			int lPosY = (int)Mathf.Round(pPosition.Y / MAP_CASE_SCALE);
+			return new Vector2I(lPosX, lPosY);
+		}
+		public static Node2D CreateObject(PackedScene pScene, Vector2 pPosition, Node pAddTo)
+		{
+			Node2D lObject = pScene.Instantiate() as Node2D;
+			if (pAddTo != null) pAddTo.AddChild(lObject);
+			lObject.GlobalPosition = pPosition;
+			return lObject;
+		}
 	}
 }

@@ -31,7 +31,7 @@ namespace Com.IsartDigital.SOKOBAN
             // }
 
             GridManager lGrid = GridManager.GetInstance();
-            Vector2I lPos = lGrid.PositionToGrid(GlobalPosition);
+            Vector2I lPos = Utils.PositionToGridPosition(GlobalPosition);
             Vector2I lEndPos = lPos + pDirection;
             Node2D lObject = lGrid.GetObjectOnGrid(lEndPos);
             if (lObject is Movable lMovable)

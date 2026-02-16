@@ -65,8 +65,7 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public void ConvertListIntToNodeList(List<List<int>> pGrid)
 		{
-			//convert the list of int into a list of node2D 
-			// easier to move
+			//convert the list of int into a list of node2D
 			int lFirstListCount = pGrid.Count;
 			if (lFirstListCount == 0) return;
 			Vector2 lPosition;
@@ -82,16 +81,16 @@ namespace Com.IsartDigital.SOKOBAN
 					switch (pGrid[j][i])
 					{
 						case 0:
-							staticGrid[j][i] = CreateObject(wallscene, lPosition);
+							staticGrid[j][i] = Utils.CreateObject(wallscene, lPosition, this);
 							break;
 						case 1:
-							staticGrid[j][i] = CreateObject(playerscene, lPosition);
+							staticGrid[j][i] = Utils.CreateObject(playerscene, lPosition, this);
 							break;
 						case 2:
-							staticGrid[j][i] = CreateObject(dicescene, lPosition);
+							staticGrid[j][i] = Utils.CreateObject(dicescene, lPosition, this);
 							break;
 						case 3:
-							staticGrid[j][i] = CreateObject(finishzonescene, lPosition);
+							staticGrid[j][i] = Utils.CreateObject(finishzonescene, lPosition, this);
 							break;
 					}
 				}
@@ -142,20 +141,13 @@ namespace Com.IsartDigital.SOKOBAN
 		#region Move
 		public bool MoveFromPos(Vector2 pPosition, Vector2I pDirection)
 		{
-			Vector2I lPos = PositionToGrid(pPosition);
+			Vector2I lPos = Utils.PositionToGridPosition(pPosition);
 			Vector2I lEndPos = lPos + pDirection;
 			return MoveOnGrid(lPos.X, lPos.Y, lEndPos.X, lEndPos.Y);
 		}
-		public Vector2I PositionToGrid(Vector2 pPosition)
-		{
-			//convert
-			int lPosX = (int)Mathf.Round(pPosition.X / Utils.MAP_CASE_SCALE);
-			int lPosY = (int)Mathf.Round(pPosition.Y / Utils.MAP_CASE_SCALE);
-			return new Vector2I(lPosX, lPosY);
-		}
 		public Node2D GetObjectOnPosition(Vector2 pPosition)
 		{
-			Vector2I lPos = PositionToGrid(pPosition);
+			Vector2I lPos = Utils.PositionToGridPosition(pPosition);
 			return GetObjectOnGrid(lPos);
 		}
 		public Node2D GetObjectOnGrid(Vector2I pPosition)
@@ -183,12 +175,6 @@ namespace Com.IsartDigital.SOKOBAN
 				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
 			}
 		}
-		private Node2D CreateObject(PackedScene pScene, Vector2 pPosition)
-		{
-			Node2D lObject = pScene.Instantiate() as Node2D;
-			AddChild(lObject);
-			lObject.GlobalPosition = pPosition;
-			return lObject;
-		}
+
 	}
 }
