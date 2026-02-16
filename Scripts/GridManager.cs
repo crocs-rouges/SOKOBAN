@@ -140,11 +140,11 @@ namespace Com.IsartDigital.SOKOBAN
 			}
 		}
 		#region Move
-		public void MoveFromPos(Vector2 pPosition, Vector2I pDirection)
+		public bool MoveFromPos(Vector2 pPosition, Vector2I pDirection)
 		{
 			Vector2I lPos = PositionToGrid(pPosition);
 			Vector2I lEndPos = lPos + pDirection;
-			MoveOnGrid(lPos.X, lPos.Y, lEndPos.X, lEndPos.Y);
+			return MoveOnGrid(lPos.X, lPos.Y, lEndPos.X, lEndPos.Y);
 		}
 		public Vector2I PositionToGrid(Vector2 pPosition)
 		{
@@ -153,15 +153,24 @@ namespace Com.IsartDigital.SOKOBAN
 			int lPosY = (int)Mathf.Round(pPosition.Y / Utils.MAP_CASE_SCALE);
 			return new Vector2I(lPosX, lPosY);
 		}
-		public void MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
+		public Node2D GetObjectOnPosition(Vector2 pPosition)
 		{
-			//move object from start position to end position on the movable grid
+			Vector2I lPos = PositionToGrid(pPosition);
+			return GetObjectOnGrid(lPos);
+		}
+		public Node2D GetObjectOnGrid(Vector2I pPosition)
+		{
+			return movableGrid[pPosition.Y][pPosition.X];
+		}
+		public bool MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
+		{
+			GD.Print(movableGrid[pEndY][pEndX]);
+			if (movableGrid[pEndY][pEndX] != null) return false;
 			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
-			// movableGrid[pStartY][pStartX] = staticGrid[pStartY][pStartX];
 			movableGrid[pStartY][pStartX] = null;
-			// GD.Print($"Y first move from {pStartY} {pStartX} to {pEndY} {pEndX}");
 			GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
 			GD.Print(movableGrid[pEndY][pEndX].Name);
+			return true;
 		}
 		#endregion
 
