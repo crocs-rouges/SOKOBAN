@@ -42,31 +42,42 @@ namespace Com.IsartDigital.SOKOBAN
 			ConvertListIntToNodeList(testLoadingGrid);
 			// PlaceObjectOnGrid();
 			GridSnap();
-			movableGrid = staticGrid;
+			InitMovableGrid();
 		}
-		public void ConvertListIntToNodeList(List<List<int>> pGrid)
+		private void InitMovableGrid()
 		{
-			//convert the list of int into a list of node2D easier to move
+			movableGrid = new List<List<Node2D>>();
+			int lCount = staticGrid.Count;
+			for (int i = 0; i < lCount; i++)
+				movableGrid.Add(new List<Node2D>(staticGrid[i]));
+		}
+		private void InitStaticGrid(List<List<int>> pGrid)
+		{
 			int lFirstListCount = pGrid.Count;
-			if (lFirstListCount == 0) return;
-			Vector2 lPosition;
+			staticGrid = new List<List<Node2D>>();
 			for (int i = 0; i < lFirstListCount; i++)
 			{
 				staticGrid.Add(new List<Node2D>());
-
 				int lSecondListCount = pGrid[i].Count;
 				for (int j = 0; j < lSecondListCount; j++)
-				{
 					staticGrid[i].Add(null);
-				}
-				GD.Print(staticGrid[i].Count);
 			}
+		}
+		public void ConvertListIntToNodeList(List<List<int>> pGrid)
+		{
+			//convert the list of int into a list of node2D 
+			// easier to move
+			int lFirstListCount = pGrid.Count;
+			if (lFirstListCount == 0) return;
+			Vector2 lPosition;
+			//init static grid
+			InitStaticGrid(pGrid);
 			for (int i = 0; i < lFirstListCount; i++)
 			{
 				int lSecondListCount = pGrid[i].Count;
 				for (int j = 0; j < lSecondListCount; j++)
 				{
-					GD.Print(pGrid[j][i]);
+					// GD.Print(pGrid[j][i]);
 					lPosition = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
 					switch (pGrid[j][i])
 					{
@@ -84,9 +95,8 @@ namespace Com.IsartDigital.SOKOBAN
 							break;
 					}
 				}
-				GD.Print("end line");
+				// GD.Print("end line");
 			}
-			GD.Print(staticGrid);
 		}
 		public void PlaceFromGrid(List<List<Node2D>> pGrid)
 		{
@@ -100,18 +110,35 @@ namespace Com.IsartDigital.SOKOBAN
 				for (int j = 0; j < lSecondListCount; j++)
 				{
 					lPosition = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
-					pGrid[i][j].GlobalPosition = lPosition;
+					if (pGrid[j][i] != null)
+					{
+						GD.Print(pGrid[j][i].Name + " " + i + " " + j);
+						pGrid[j][i].GlobalPosition = lPosition;
+					}
+					else GD.Print($"null on {i} {j}");
 				}
+				GD.Print("end line");
 			}
 		}
-		// public void PlaceObjectOnGrid()
-		// {
-		// 	//place movable objects on the game based on the grid
-		// 	foreach (Node2D lObject in GetChildren())
-		// 	{
-		// 		if (lObject is not Movable) continue;
-		// 	}
-		// }
+		public void ResetGrid()
+		{
+			PlaceFromGrid(staticGrid);
+			GridSnap();
+			InitMovableGrid();
+		}
+		public void HardResetGrid()
+		{
+			EraseGrid();
+			ConvertListIntToNodeList(testLoadingGrid);
+			InitMovableGrid();
+		}
+		public void EraseGrid()
+		{
+			foreach (Node2D lObject in GetChildren())
+			{
+				lObject.QueueFree();
+			}
+		}
 		#region Move
 		public void MoveFromPos(Vector2 pPosition, Vector2I pDirection)
 		{
@@ -130,9 +157,10 @@ namespace Com.IsartDigital.SOKOBAN
 		{
 			//move object from start position to end position on the movable grid
 			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
-			movableGrid[pStartY][pStartX] = staticGrid[pStartY][pStartX];
-			GD.Print($"Y first move from {pStartY} {pStartX} to {pEndY} {pEndX}");
-			// GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
+			// movableGrid[pStartY][pStartX] = staticGrid[pStartY][pStartX];
+			movableGrid[pStartY][pStartX] = null;
+			// GD.Print($"Y first move from {pStartY} {pStartX} to {pEndY} {pEndX}");
+			GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
 			GD.Print(movableGrid[pEndY][pEndX].Name);
 		}
 		#endregion

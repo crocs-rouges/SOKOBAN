@@ -37,7 +37,8 @@ namespace Com.IsartDigital.SOKOBAN
 			if (Input.IsActionJustPressed("RotateRight")) RotateRaycastRight(true);
 
 			//retry
-			if (Input.IsActionJustPressed("Retry")) GetTree().ReloadCurrentScene();
+			// if (Input.IsActionJustPressed("Retry")) GetTree().ReloadCurrentScene();
+			if (Input.IsActionJustPressed("Retry")) GridManager.GetInstance().ResetGrid();
 		}
 		public void WhipPull()
 		{
