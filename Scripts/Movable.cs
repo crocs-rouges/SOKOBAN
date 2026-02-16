@@ -29,7 +29,10 @@ namespace Com.IsartDigital.SOKOBAN
                     return false;
                 }
             }
+            GridManager.GetInstance().MoveFromPos(GlobalPosition, pDirection);
+
             GlobalPosition += pDirection * Utils.MAP_CASE_SCALE;
+
             return true;
         }
         public virtual void RotationPhysics(Vector2I pDirection)

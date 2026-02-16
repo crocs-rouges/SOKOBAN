@@ -13,8 +13,10 @@ namespace Com.IsartDigital.SOKOBAN
 		public override void _Ready()
 		{
 			base._Ready();
-			sprite.Texture = Dice.FaceTexturesSt[finishIndex];
-            area = GetNode<Area2D>("Area2D");
+			Utils.CreateOneSecTimer(this).Timeout
+			+= () => sprite.Texture = Dice.FaceTexturesSt[finishIndex];
+			
+			area = GetNode<Area2D>("Area2D");
 			if (area != null)
 				area.AreaEntered += (Area2D pArea) => CheckDiceFace(pArea);
 		}
