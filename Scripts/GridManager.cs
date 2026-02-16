@@ -104,18 +104,19 @@ namespace Com.IsartDigital.SOKOBAN
 				}
 			}
 		}
-		public void PlaceObjectOnGrid()
-		{
-			//place movable objects on the game based on the grid
-			foreach (Node2D lObject in GetChildren())
-			{
-				if (lObject is not Movable) continue;
-			}
-		}
-		public void MoveFromPos(Vector2 pPosition, Vector2 pDirection)
+		// public void PlaceObjectOnGrid()
+		// {
+		// 	//place movable objects on the game based on the grid
+		// 	foreach (Node2D lObject in GetChildren())
+		// 	{
+		// 		if (lObject is not Movable) continue;
+		// 	}
+		// }
+		#region Move
+		public void MoveFromPos(Vector2 pPosition, Vector2I pDirection)
 		{
 			Vector2I lPos = PositionToGrid(pPosition);
-			Vector2I lEndPos = PositionToGrid(pPosition + pDirection);
+			Vector2I lEndPos = lPos + pDirection;
 			MoveOnGrid(lPos.X, lPos.Y, lEndPos.X, lEndPos.Y);
 		}
 		public Vector2I PositionToGrid(Vector2 pPosition)
@@ -130,8 +131,11 @@ namespace Com.IsartDigital.SOKOBAN
 			//move object from start position to end position on the movable grid
 			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
 			movableGrid[pStartY][pStartX] = staticGrid[pStartY][pStartX];
+			GD.Print($"Y first move from {pStartY} {pStartX} to {pEndY} {pEndX}");
+			// GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
 			GD.Print(movableGrid[pEndY][pEndX].Name);
 		}
+		#endregion
 
 		public void GridSnap()
 		{
