@@ -164,8 +164,8 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public bool MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
 		{
-			GD.Print(movableGrid[pEndY][pEndX]);
-			if (movableGrid[pEndY][pEndX] != null) return false;
+			// GD.Print(movableGrid[pEndY][pEndX]);
+			// if (movableGrid[pEndY][pEndX] != null) return false;
 			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
 			movableGrid[pStartY][pStartX] = null;
 			GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");

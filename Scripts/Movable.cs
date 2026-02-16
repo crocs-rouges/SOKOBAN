@@ -34,19 +34,21 @@ namespace Com.IsartDigital.SOKOBAN
             Vector2I lPos = lGrid.PositionToGrid(GlobalPosition);
             Vector2I lEndPos = lPos + pDirection;
             Node2D lObject = lGrid.GetObjectOnGrid(lEndPos);
-            bool lIsMoving = lGrid.MoveFromPos(
-                GlobalPosition, pDirection);
             if (lObject is Movable lMovable)
             {
                 if (!lMovable.Move(pDirection)) return false;
             }
-
-
-
-
-
-
-            if (lIsMoving) GlobalPosition += pDirection * Utils.MAP_CASE_SCALE;
+            else if (lObject is FinishZone) { }
+            else if (lObject is Casino_case) { }
+            else if (lObject is null) { } //air tile in the grid
+            else
+            {
+                // Blocked by a wall or static object
+                return false;
+            }
+            if (lGrid.MoveFromPos(GlobalPosition, pDirection))
+                GlobalPosition += pDirection * Utils.MAP_CASE_SCALE;
+            else return false;
             return true;
         }
         public virtual void RotationPhysics(Vector2I pDirection)
