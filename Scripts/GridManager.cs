@@ -25,10 +25,11 @@ namespace Com.IsartDigital.SOKOBAN
 		public static List<List<Node2D>> staticGrid = new List<List<Node2D>>();
 		public List<List<Node2D>> movableGrid = new List<List<Node2D>>();
 
-		[Export] private PackedScene wallscene;
-		[Export] private PackedScene dicescene;
-		[Export] private PackedScene playerscene;
-		[Export] private PackedScene finishzonescene;
+		[Export] private PackedScene wallScene;
+		[Export] private PackedScene diceScene;
+		[Export] private PackedScene playerScene;
+		[Export] private PackedScene finishZoneScene;
+		[Export] private PackedScene casinoScene;
 
 		public static GridManager GetInstance()
 		{
@@ -39,9 +40,6 @@ namespace Com.IsartDigital.SOKOBAN
 		{
 			instance = this;
 			base._Ready();
-			ConvertListIntToNodeList(testLoadingGrid);
-			GridSnap();
-			InitMovableGrid();
 		}
 		private void InitMovableGrid()
 		{
@@ -62,40 +60,35 @@ namespace Com.IsartDigital.SOKOBAN
 					staticGrid[i].Add(null);
 			}
 		}
-		public void ConvertListIntToNodeList(List<List<int>> pGrid)
+		private void GenerateStaticGrid(List<List<int>> pGrid)
 		{
-			//convert the list of int into a list of node2D
-			int lFirstListCount = pGrid.Count;
-			if (lFirstListCount == 0) return;
-			Vector2 lPosition;
-			InitStaticGrid(pGrid);
-			for (int i = 0; i < lFirstListCount; i++)
+			staticGrid.Clear();
+			int lRows = pGrid.Count;
+			for (int j = 0; j < lRows; j++)
 			{
-				int lSecondListCount = pGrid[i].Count;
-				for (int j = 0; j < lSecondListCount; j++)
+				List<Node2D> lRowNodes = new List<Node2D>();
+				int lCols = pGrid[j].Count;
+				for (int i = 0; i < lCols; i++)
 				{
-					// GD.Print(pGrid[j][i]);
-					lPosition = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
-					switch (pGrid[j][i])
-					{
-						case 0:
-							staticGrid[j][i] = Utils.CreateObject(wallscene, lPosition, this);
-							break;
-						case 1:
-							staticGrid[j][i] = Utils.CreateObject(playerscene, lPosition, this);
-							break;
-						case 2:
-							staticGrid[j][i] = Utils.CreateObject(dicescene, lPosition, this);
-							break;
-						case 3:
-							staticGrid[j][i] = Utils.CreateObject(finishzonescene, lPosition, this);
-							break;
-					}
+					Vector2 lPos = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
+					lRowNodes.Add(SpawnObject(pGrid[j][i], lPos));
 				}
-				// GD.Print("end line");
+				staticGrid.Add(lRowNodes);
 			}
 		}
-		public void PlaceFromGrid(List<List<Node2D>> pGrid)
+		private Node2D SpawnObject(int pType, Vector2 pPos)
+		{
+			PackedScene lScene = pType switch
+			{
+				0 => wallScene,
+				1 => playerScene,
+				2 => diceScene,
+				3 => finishZoneScene,
+				_ => null
+			};
+			return lScene != null ? Utils.CreateObject(lScene, pPos, this) : null;
+		}
+		public void PlaceObjectFromList(List<List<Node2D>> pGrid)
 		{
 			// place object on the game based on the grid placement
 			int lFirstListCount = pGrid.Count;
@@ -155,24 +148,24 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		#endregion
 		#region Reset
-		public void ResetGrid()
-		{
-			PlaceFromGrid(staticGrid);
-			GridSnap();
-			InitMovableGrid();
-		}
-		public void HardResetGrid()
+		public void LoadGrid(List<List<int>> pGrid)
 		{
 			EraseGrid();
-			ConvertListIntToNodeList(testLoadingGrid);
+			GenerateStaticGrid(pGrid);
+			InitMovableGrid();
+			GridSnap();
+		}
+		public void ResetGrid()
+		{
+			PlaceObjectFromList(staticGrid);
+			GridSnap();
 			InitMovableGrid();
 		}
 		public void EraseGrid()
 		{
-			foreach (Node2D lObject in GetChildren())
-			{
-				lObject.QueueFree();
-			}
+			foreach (Node2D lObject in GetChildren()) lObject.QueueFree();
+			staticGrid.Clear();
+			movableGrid.Clear();
 		}
 		#endregion
 	}
