@@ -109,14 +109,52 @@ namespace Com.IsartDigital.SOKOBAN
 					lPosition = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
 					if (pGrid[j][i] != null)
 					{
-						GD.Print(pGrid[j][i].Name + " " + i + " " + j);
+						// GD.Print(pGrid[j][i].Name + " " + i + " " + j);
 						pGrid[j][i].GlobalPosition = lPosition;
 					}
-					else GD.Print($"null on {i} {j}");
+					// else GD.Print($"null on {i} {j}");
 				}
-				GD.Print("end line");
+				// GD.Print("end line");
 			}
 		}
+		public void GridSnap()
+		{
+			foreach (Node2D lObject in GetChildren())
+			{
+				float lPosX = Mathf.Round(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				float lPosY = Mathf.Round(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
+			}
+		}
+		#region GetObject
+		public Node2D GetObjectOnPosition(Vector2 pPosition)
+		{
+			Vector2I lPos = Utils.PositionToGridPosition(pPosition);
+			return GetObjectOnGrid(lPos);
+		}
+		public Node2D GetObjectOnGrid(Vector2I pPosition)
+		{
+			return movableGrid[pPosition.Y][pPosition.X];
+		}
+		#endregion
+		#region Move
+		public bool MoveFromPos(Vector2 pPosition, Vector2I pDirection)
+		{
+			Vector2I lPos = Utils.PositionToGridPosition(pPosition);
+			Vector2I lEndPos = lPos + pDirection;
+			return MoveOnGrid(lPos.X, lPos.Y, lEndPos.X, lEndPos.Y);
+		}
+		public bool MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
+		{
+			// GD.Print(movableGrid[pEndY][pEndX]);
+			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
+			movableGrid[pStartY][pStartX] = null;
+			GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
+			GD.Print(movableGrid[pEndY][pEndX].Name);
+			return true;
+		}
+		#endregion
+		#region Reset
 		public void ResetGrid()
 		{
 			PlaceFromGrid(staticGrid);
@@ -135,41 +173,6 @@ namespace Com.IsartDigital.SOKOBAN
 			{
 				lObject.QueueFree();
 			}
-		}
-		public void GridSnap()
-		{
-			foreach (Node2D lObject in GetChildren())
-			{
-				float lPosX = Mathf.Round(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
-				float lPosY = Mathf.Round(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
-				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
-			}
-		}
-		#region Move
-		public bool MoveFromPos(Vector2 pPosition, Vector2I pDirection)
-		{
-			Vector2I lPos = Utils.PositionToGridPosition(pPosition);
-			Vector2I lEndPos = lPos + pDirection;
-			return MoveOnGrid(lPos.X, lPos.Y, lEndPos.X, lEndPos.Y);
-		}
-		public Node2D GetObjectOnPosition(Vector2 pPosition)
-		{
-			Vector2I lPos = Utils.PositionToGridPosition(pPosition);
-			return GetObjectOnGrid(lPos);
-		}
-		public Node2D GetObjectOnGrid(Vector2I pPosition)
-		{
-			return movableGrid[pPosition.Y][pPosition.X];
-		}
-		public bool MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
-		{
-			// GD.Print(movableGrid[pEndY][pEndX]);
-			// if (movableGrid[pEndY][pEndX] != null) return false;
-			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
-			movableGrid[pStartY][pStartX] = null;
-			GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
-			GD.Print(movableGrid[pEndY][pEndX].Name);
-			return true;
 		}
 		#endregion
 	}

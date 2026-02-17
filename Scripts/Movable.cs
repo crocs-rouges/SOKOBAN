@@ -32,26 +32,27 @@ namespace Com.IsartDigital.SOKOBAN
             else return false;
             return true;
         }
-        private void MoveByRaycast()
+        private bool MoveByRaycast(Vector2I pDirection)
         {
-            // RotationPhysics(pDirection);
-            // if (rayCast.IsColliding())
-            // {
-            //     Node2D lCollider = rayCast.GetCollider() as Node2D;
-            //     Node2D lParent = lCollider.GetParent() as Node2D;
-            //     // Check if the obstacle is Movable (like a Dice) and try to push it
-            //     if (lParent is Movable lMovable)
-            //     {
-            //         if (!lMovable.Move(pDirection)) return false;
-            //     }
-            //     else if (lParent is FinishZone) { }
-            //     else if (lParent is Casino_case) { }
-            //     else
-            //     {
-            //         // Blocked by a wall or static object
-            //         return false;
-            //     }
-            // }
+            RotationPhysics(pDirection);
+            if (rayCast.IsColliding())
+            {
+                Node2D lCollider = rayCast.GetCollider() as Node2D;
+                Node2D lParent = lCollider.GetParent() as Node2D;
+                // Check if the obstacle is Movable (like a Dice) and try to push it
+                if (lParent is Movable lMovable)
+                {
+                    if (!lMovable.Move(pDirection)) return false;
+                }
+                else if (lParent is FinishZone) { }
+                else if (lParent is Casino_case) { }
+                else
+                {
+                    // Blocked by a wall or static object
+                    return false;
+                }
+            }
+            return true;
         }
         public virtual void RotationPhysics(Vector2I pDirection)
         {
