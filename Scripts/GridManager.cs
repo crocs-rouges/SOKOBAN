@@ -6,17 +6,16 @@ using System.Collections.Generic;
 
 namespace Com.IsartDigital.SOKOBAN
 {
-	public partial class GridManager : Node2D
+	public partial class GridManager : TileMap
 	{
 		//for test
-		private List<List<int>> testLoadingGrid = new List<List<int>>(){
-		new List<int> { 0, 0, 0, 0, 0, 0, 0},
-		new List<int> { 0, 3, 9, 9, 9, 9, 0},
-		new List<int> { 0, 9, 9, 9, 9, 9, 0},
-		new List<int> { 0, 9, 9, 9, 9, 9, 0},
-		new List<int> { 0, 9, 2, 9, 9, 9, 0},
-		new List<int> { 0, 1, 9, 9, 9, 9, 0},
-		new List<int> { 0, 0, 0, 0, 0, 0, 0}
+		private List<string> testLoadingGrid = new List<string>(){
+		"#######",
+		".      ",
+		"  @$   ",
+		"       ",
+		"       ",
+		"#######"
 		};
 		//
 
@@ -25,11 +24,11 @@ namespace Com.IsartDigital.SOKOBAN
 		public static List<List<Node2D>> staticGrid = new List<List<Node2D>>();
 		public List<List<Node2D>> movableGrid = new List<List<Node2D>>();
 
-		[Export] private PackedScene wallScene;
-		[Export] private PackedScene diceScene;
-		[Export] private PackedScene playerScene;
-		[Export] private PackedScene finishZoneScene;
-		[Export] private PackedScene casinoScene;
+		private string wallScenePath = "res://Scenes/Bloc.tscn";
+		private string diceScenePath = "res://Scenes/Dice.tscn";
+		private string playerScenePath = "res://Scenes/Player.tscn";
+		private string finishZoneScenePath = "res://Scenes/Finish.tscn";
+		private string casinoScenePath = "res://Scenes/casino_case.tscn";
 
 		public static GridManager GetInstance()
 		{
@@ -40,6 +39,8 @@ namespace Com.IsartDigital.SOKOBAN
 		{
 			instance = this;
 			base._Ready();
+			LoadGrid(testLoadingGrid);
+			PlaceObjectFromList(staticGrid);
 		}
 		private void InitMovableGrid()
 		{
@@ -48,45 +49,35 @@ namespace Com.IsartDigital.SOKOBAN
 			for (int i = 0; i < lCount; i++)
 				movableGrid.Add(new List<Node2D>(staticGrid[i]));
 		}
-		private void InitStaticGrid(List<List<int>> pGrid)
-		{
-			int lFirstListCount = pGrid.Count;
-			staticGrid = new List<List<Node2D>>();
-			for (int i = 0; i < lFirstListCount; i++)
-			{
-				staticGrid.Add(new List<Node2D>());
-				int lSecondListCount = pGrid[i].Count;
-				for (int j = 0; j < lSecondListCount; j++)
-					staticGrid[i].Add(null);
-			}
-		}
-		private void GenerateStaticGrid(List<List<int>> pGrid)
+		private void GenerateStaticGrid(List<string> pGrid)
 		{
 			staticGrid.Clear();
 			int lRows = pGrid.Count;
 			for (int j = 0; j < lRows; j++)
 			{
 				List<Node2D> lRowNodes = new List<Node2D>();
-				int lCols = pGrid[j].Count;
+				int lCols = pGrid[j].Length;
 				for (int i = 0; i < lCols; i++)
 				{
 					Vector2 lPos = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
-					lRowNodes.Add(SpawnObject(pGrid[j][i], lPos));
+					lRowNodes.Add(SpawnObject(pGrid[j][i].ToString(), lPos));
 				}
 				staticGrid.Add(lRowNodes);
 			}
 		}
-		private Node2D SpawnObject(int pType, Vector2 pPos)
+		private Node2D SpawnObject(string pType, Vector2 pPos)
 		{
-			PackedScene lScene = pType switch
+			string lScenePath = pType switch
 			{
-				0 => wallScene,
-				1 => playerScene,
-				2 => diceScene,
-				3 => finishZoneScene,
+				"c" => casinoScenePath,
+				"#" => wallScenePath,
+				"@" => playerScenePath,
+				"$" => diceScenePath,
+				"." => finishZoneScenePath,
 				_ => null
 			};
-			return lScene != null ? Utils.CreateObject(lScene, pPos, this) : null;
+			if (lScenePath == null) return null;
+			return Utils.SpawnObject(lScenePath, pPos, this);
 		}
 		public void PlaceObjectFromList(List<List<Node2D>> pGrid)
 		{
@@ -104,6 +95,11 @@ namespace Com.IsartDigital.SOKOBAN
 					{
 						// GD.Print(pGrid[j][i].Name + " " + i + " " + j);
 						pGrid[j][i].GlobalPosition = lPosition;
+						// add object to a tilemap
+						//ground cell
+						SetCell(0, new Vector2I(i, j), 0, Vector2I.Zero, 1);
+						GD.Print(GetCellTileData(0, new Vector2I(i, j)));
+
 					}
 					// else GD.Print($"null on {i} {j}");
 				}
@@ -148,7 +144,7 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		#endregion
 		#region Reset
-		public void LoadGrid(List<List<int>> pGrid)
+		public void LoadGrid(List<string> pGrid)
 		{
 			EraseGrid();
 			GenerateStaticGrid(pGrid);

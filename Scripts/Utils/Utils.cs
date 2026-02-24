@@ -47,5 +47,13 @@ namespace Com.IsartDigital.SOKOBAN
 			lObject.GlobalPosition = pPosition;
 			return lObject;
 		}
+		public static Node2D SpawnObject(string pScenePath, Vector2 pPos, Node pAddTo)
+        {
+            PackedScene lScene = GD.Load<PackedScene>(pScenePath);
+            Node2D lObject = lScene.Instantiate<Node2D>();
+            lObject.GlobalPosition = pPos;
+            pAddTo.CallDeferred(Node.MethodName.AddChild, lObject);
+            return lObject;
+        }
 	}
 }

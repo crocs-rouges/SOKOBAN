@@ -1,23 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://b55qtyn8ct6on"]
+[gd_scene load_steps=4 format=3 uid="uid://b55qtyn8ct6on"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/Utils.cs" id="1_b7nhn"]
 [ext_resource type="Script" path="res://Scripts/GridManager.cs" id="2_pllow"]
-[ext_resource type="PackedScene" uid="uid://t8qt50tb1hhi" path="res://Scenes/Bloc.tscn" id="3_fw513"]
-[ext_resource type="PackedScene" uid="uid://iu0cetveefc0" path="res://Scenes/Dice.tscn" id="4_ilvj2"]
-[ext_resource type="PackedScene" uid="uid://86oo5012ecf7" path="res://Scenes/Player.tscn" id="5_7rm7x"]
-[ext_resource type="PackedScene" uid="uid://b5nbxnjau3msm" path="res://Scenes/Finish.tscn" id="6_xsqxp"]
+[ext_resource type="TileSet" uid="uid://u0idtl8dcko" path="res://Assets/basictileset.tres" id="2_vamov"]
 
 [node name="testinggrid" type="Node2D"]
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource("1_b7nhn")
 
-[node name="GridContainer" type="Node2D" parent="."]
+[node name="GridContainer" type="TileMap" parent="."]
+tile_set = ExtResource("2_vamov")
+format = 2
 script = ExtResource("2_pllow")
-wallscene = ExtResource("3_fw513")
-dicescene = ExtResource("4_ilvj2")
-playerscene = ExtResource("5_7rm7x")
-finishzonescene = ExtResource("6_xsqxp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(571, 315)
