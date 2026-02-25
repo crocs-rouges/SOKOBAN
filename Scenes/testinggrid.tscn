@@ -12,7 +12,12 @@ script = ExtResource("1_b7nhn")
 [node name="GridContainer" type="TileMap" parent="."]
 tile_set = ExtResource("2_vamov")
 format = 2
+layer_0/name = "Ground"
+layer_0/z_index = -1
+layer_1/name = "Wall"
+layer_1/tile_data = PackedInt32Array()
 script = ExtResource("2_pllow")
+logicGridVisible = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(571, 315)

@@ -1,10 +1,46 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://u0idtl8dcko"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://u0idtl8dcko"]
 
 [ext_resource type="PackedScene" uid="uid://t8qt50tb1hhi" path="res://Scenes/Bloc.tscn" id="1_f3gko"]
+[ext_resource type="Texture2D" uid="uid://bir8jgxnm5y7l" path="res://Assets/Dice/six sided die.png" id="2_qhcww"]
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_goubj"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ktxi2"]
+resource_name = "all dice sprite"
+texture = ExtResource("2_qhcww")
+0:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+5:1/0 = 0
+4:1/0 = 0
+3:1/0 = 0
+2:1/0 = 0
+1:1/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_68by5"]
 scenes/1/scene = ExtResource("1_f3gko")
 
 [resource]
-tile_size = Vector2i(64, 64)
-sources/0 = SubResource("TileSetScenesCollectionSource_goubj")
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_ktxi2")
+sources/3 = SubResource("TileSetScenesCollectionSource_68by5")

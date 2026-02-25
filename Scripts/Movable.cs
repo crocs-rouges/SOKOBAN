@@ -14,23 +14,28 @@ namespace Com.IsartDigital.SOKOBAN
             GridManager lGrid = GridManager.GetInstance();
             Vector2I lPos = Utils.PositionToGridPosition(GlobalPosition);
             Vector2I lEndPos = lPos + pDirection;
+
             Node2D lObject = lGrid.GetObjectOnGrid(lEndPos);
+
             if (lObject is Movable lMovable)
             {
                 if (!lMovable.Move(pDirection)) return false;
             }
             else if (lObject is FinishZone) { }
             else if (lObject is Casino_case) { }
-            else if (lObject is null) { } //air tile in the grid
+            else if (lObject is null) { } // Air/Sol simple
             else
             {
-                // Blocked by a wall or static object
+                // Mur ou obstacle statique
                 return false;
             }
+
             if (lGrid.MoveFromPos(GlobalPosition, pDirection))
+            {
                 GlobalPosition += pDirection * Utils.MAP_CASE_SCALE;
-            else return false;
-            return true;
+                return true;
+            }
+            return false;
         }
         private bool MoveByRaycast(Vector2I pDirection)
         {

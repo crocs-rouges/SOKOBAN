@@ -9,18 +9,29 @@ namespace Com.IsartDigital.SOKOBAN
 	public partial class GridManager : TileMap
 	{
 		//for test
+		// private List<string> testLoadingGrid = new List<string>(){
+		// "#########",
+		// "#.      #",
+		// "#  @$   #",
+		// "#       #",
+		// "#       #",
+		// "#########"
+		// };
+
 		private List<string> testLoadingGrid = new List<string>(){
-		"#######",
-		".      ",
-		"  @$   ",
-		"       ",
-		"       ",
-		"#######"
+		"#########",
+		"#      ##",
+		"#       #",
+		"###     #",
+		"#  @    #",
+		"#########"
 		};
 		//
 
 
 		private static GridManager instance;
+		[Export] private bool logicGridVisible;
+		[Export] private bool tileGoUp;
 		public static List<List<Node2D>> staticGrid = new List<List<Node2D>>();
 		public List<List<Node2D>> movableGrid = new List<List<Node2D>>();
 
@@ -47,7 +58,9 @@ namespace Com.IsartDigital.SOKOBAN
 			movableGrid = new List<List<Node2D>>();
 			int lCount = staticGrid.Count;
 			for (int i = 0; i < lCount; i++)
+			{
 				movableGrid.Add(new List<Node2D>(staticGrid[i]));
+			}
 		}
 		private void GenerateStaticGrid(List<string> pGrid)
 		{
@@ -77,33 +90,30 @@ namespace Com.IsartDigital.SOKOBAN
 				_ => null
 			};
 			if (lScenePath == null) return null;
-			return Utils.SpawnObject(lScenePath, pPos, this);
+			return Utils.SpawnObject(lScenePath, pPos, GetParent());
 		}
 		public void PlaceObjectFromList(List<List<Node2D>> pGrid)
 		{
-			// place object on the game based on the grid placement
 			int lFirstListCount = pGrid.Count;
 			if (lFirstListCount == 0) return;
+			Vector2I lPosIJ;
 			Vector2 lPosition;
 			for (int i = 0; i < lFirstListCount; i++)
 			{
 				int lSecondListCount = pGrid[i].Count;
 				for (int j = 0; j < lSecondListCount; j++)
 				{
-					lPosition = new Vector2(i * Utils.MAP_CASE_SCALE, j * Utils.MAP_CASE_SCALE);
-					if (pGrid[j][i] != null)
+					if (tileGoUp) lPosIJ = new Vector2I(i, j) * -1;
+					else lPosIJ = new Vector2I(j, i);
+					lPosition = (new Vector2I(j, i) * Utils.MAP_CASE_SCALE) + (Vector2I.One * Utils.MAP_CASE_SCALE / 2);
+					if (pGrid[i][j] != null)
 					{
-						// GD.Print(pGrid[j][i].Name + " " + i + " " + j);
-						pGrid[j][i].GlobalPosition = lPosition;
-						// add object to a tilemap
-						//ground cell
-						SetCell(0, new Vector2I(i, j), 0, Vector2I.Zero, 1);
-						GD.Print(GetCellTileData(0, new Vector2I(i, j)));
-
+						pGrid[i][j].GlobalPosition = lPosition;
+						if (!logicGridVisible) pGrid[i][j].Visible = false;
+						SetCell(1, lPosIJ, 0, new Vector2I(1, 0));
 					}
-					// else GD.Print($"null on {i} {j}");
+					SetCell(0, lPosIJ + new Vector2I(1, 1), 0, new Vector2I(0, 0));
 				}
-				// GD.Print("end line");
 			}
 		}
 		public void GridSnap()
@@ -123,6 +133,8 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public Node2D GetObjectOnGrid(Vector2I pPosition)
 		{
+			if (pPosition.Y < 0 || pPosition.Y >= movableGrid.Count) return null;
+			if (pPosition.X < 0 || pPosition.X >= movableGrid[pPosition.Y].Count) return null;
 			return movableGrid[pPosition.Y][pPosition.X];
 		}
 		#endregion
@@ -135,11 +147,10 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public bool MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
 		{
-			// GD.Print(movableGrid[pEndY][pEndX]);
-			movableGrid[pEndY][pEndX] = movableGrid[pStartY][pStartX];
+			Node2D lMovedObject = movableGrid[pStartY][pStartX];
+			movableGrid[pEndY][pEndX] = lMovedObject;
 			movableGrid[pStartY][pStartX] = null;
-			GD.Print($"X first move from {pStartX} {pStartY} to {pEndX} {pEndY}");
-			GD.Print(movableGrid[pEndY][pEndX].Name);
+			GD.Print($"Moved {lMovedObject?.Name} from {pStartX},{pStartY} to {pEndX},{pEndY}");
 			return true;
 		}
 		#endregion
@@ -148,6 +159,7 @@ namespace Com.IsartDigital.SOKOBAN
 		{
 			EraseGrid();
 			GenerateStaticGrid(pGrid);
+			PlaceObjectFromList(staticGrid);
 			InitMovableGrid();
 			GridSnap();
 		}
