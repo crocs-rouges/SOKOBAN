@@ -22,16 +22,16 @@ namespace Com.IsartDigital.SOKOBAN
 		"#########",
 		"#      ##",
 		"#       #",
-		"###     #",
-		"#  @    #",
+		"### $   #",
+		"#@      #",
 		"#########"
 		};
 		//
 
-
 		private static GridManager instance;
 		[Export] private bool logicGridVisible;
 		[Export] private bool tileGoUp;
+
 		public static List<List<Node2D>> staticGrid = new List<List<Node2D>>();
 		public List<List<Node2D>> movableGrid = new List<List<Node2D>>();
 
@@ -51,8 +51,10 @@ namespace Com.IsartDigital.SOKOBAN
 			instance = this;
 			base._Ready();
 			LoadGrid(testLoadingGrid);
-			PlaceObjectFromList(staticGrid);
+			GridSnap();
+			// PlaceObjectFromList calls SetCell/Position already, no need to duplicate logic here immediately
 		}
+		#region Grid Generation
 		private void InitMovableGrid()
 		{
 			movableGrid = new List<List<Node2D>>();
@@ -105,12 +107,16 @@ namespace Com.IsartDigital.SOKOBAN
 				{
 					if (tileGoUp) lPosIJ = new Vector2I(i, j) * -1;
 					else lPosIJ = new Vector2I(j, i);
+
+					// Center the object in the tile
 					lPosition = (new Vector2I(j, i) * Utils.MAP_CASE_SCALE) + (Vector2I.One * Utils.MAP_CASE_SCALE / 2);
+
 					if (pGrid[i][j] != null)
 					{
 						pGrid[i][j].GlobalPosition = lPosition;
 						if (!logicGridVisible) pGrid[i][j].Visible = false;
 						SetCell(1, lPosIJ, 0, new Vector2I(1, 0));
+						GD.Print(pGrid[i][j]?.Name + " " + lPosIJ);
 					}
 					SetCell(0, lPosIJ + new Vector2I(1, 1), 0, new Vector2I(0, 0));
 				}
@@ -118,13 +124,17 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public void GridSnap()
 		{
+			// CORRECTED: Snap to CENTER of tile to match PlaceObjectFromList
 			foreach (Node2D lObject in GetChildren())
 			{
-				float lPosX = Mathf.Round(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
-				float lPosY = Mathf.Round(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
-				lObject.GlobalPosition = new Vector2(lPosX, lPosY);
+				float lPosX = Mathf.Floor(lObject.GlobalPosition.X / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+				float lPosY = Mathf.Floor(lObject.GlobalPosition.Y / Utils.MAP_CASE_SCALE) * Utils.MAP_CASE_SCALE;
+
+				// Add half scale to center
+				lObject.GlobalPosition = new Vector2(lPosX, lPosY) + (Vector2.One * Utils.MAP_CASE_SCALE / 2);
 			}
 		}
+		#endregion
 		#region GetObject
 		public Node2D GetObjectOnPosition(Vector2 pPosition)
 		{
@@ -133,9 +143,14 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public Node2D GetObjectOnGrid(Vector2I pPosition)
 		{
-			if (pPosition.Y < 0 || pPosition.Y >= movableGrid.Count) return null;
-			if (pPosition.X < 0 || pPosition.X >= movableGrid[pPosition.Y].Count) return null;
+			if (!IsInsideGrid(pPosition.X, pPosition.Y)) return null;
 			return movableGrid[pPosition.Y][pPosition.X];
+		}
+		private bool IsInsideGrid(int pX, int pY)
+		{
+			if (pY < 0 || pY >= movableGrid.Count) return false;
+			if (pX < 0 || pX >= movableGrid[pY].Count) return false;
+			return true;
 		}
 		#endregion
 		#region Move
@@ -147,10 +162,24 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public bool MoveOnGrid(int pStartX, int pStartY, int pEndX, int pEndY)
 		{
+			// Safety checks
+			if (!IsInsideGrid(pStartX, pStartY) || !IsInsideGrid(pEndX, pEndY))
+			{
+				GD.PrintErr($"MoveOnGrid Out of Bounds: {pStartX},{pStartY} to {pEndX},{pEndY}");
+				return false;
+			}
+
 			Node2D lMovedObject = movableGrid[pStartY][pStartX];
+
+			if (lMovedObject == null)
+			{
+				GD.PrintErr($"MoveOnGrid: No object found at start pos {pStartX},{pStartY}");
+				return false;
+			}
+
 			movableGrid[pEndY][pEndX] = lMovedObject;
 			movableGrid[pStartY][pStartX] = null;
-			GD.Print($"Moved {lMovedObject?.Name} from {pStartX},{pStartY} to {pEndX},{pEndY}");
+			GD.Print($"Moved {lMovedObject.Name} from {pStartX},{pStartY} to {pEndX},{pEndY}");
 			return true;
 		}
 		#endregion
@@ -161,19 +190,33 @@ namespace Com.IsartDigital.SOKOBAN
 			GenerateStaticGrid(pGrid);
 			PlaceObjectFromList(staticGrid);
 			InitMovableGrid();
-			GridSnap();
+			// GridSnap(); // Removed: PlaceObjectFromList already positions correctly. Snapping might cause drift if math differs.
 		}
 		public void ResetGrid()
 		{
 			PlaceObjectFromList(staticGrid);
-			GridSnap();
+			// GridSnap(); 
 			InitMovableGrid();
 		}
 		public void EraseGrid()
 		{
-			foreach (Node2D lObject in GetChildren()) lObject.QueueFree();
+			// Warning: This kills ALL children. Ensure Utils.SpawnObject adds them as children of GridManager or GetParent() correctly.
+			// Based on your spawn logic: Utils.SpawnObject(..., GetParent()) -> They are siblings, not children?
+			// If siblings, GetChildren() here returns nothing or wrong things.
+			// Assuming you manage logic lists mostly.
+
+			// Simple clear for lists
 			staticGrid.Clear();
 			movableGrid.Clear();
+			// Note: Visual cleanup depends on how Utils spawns them. 
+			// If they are children of GridManager, QueueFree works.
+			foreach (Node lChild in GetParent().GetChildren())
+			{
+				if (lChild is Movable || lChild is Dice || lChild is FinishZone || lChild.Name.ToString().Contains("Bloc"))
+				{
+					lChild.QueueFree();
+				}
+			}
 		}
 		#endregion
 	}

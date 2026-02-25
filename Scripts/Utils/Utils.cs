@@ -36,9 +36,9 @@ namespace Com.IsartDigital.SOKOBAN
 		}
 		public static Vector2I PositionToGridPosition(Vector2 pPosition)
 		{
-			int lPosX = (int)Mathf.Round(pPosition.X / MAP_CASE_SCALE);
-			int lPosY = (int)Mathf.Round(pPosition.Y / MAP_CASE_SCALE);
-			return new Vector2I(lPosX, lPosY);
+			return new Vector2I(
+				Mathf.FloorToInt(pPosition.X / MAP_CASE_SCALE),
+				Mathf.FloorToInt(pPosition.Y / MAP_CASE_SCALE));
 		}
 		public static Node2D CreateObject(PackedScene pScene, Vector2 pPosition, Node pAddTo)
 		{
@@ -48,12 +48,12 @@ namespace Com.IsartDigital.SOKOBAN
 			return lObject;
 		}
 		public static Node2D SpawnObject(string pScenePath, Vector2 pPos, Node pAddTo)
-        {
-            PackedScene lScene = GD.Load<PackedScene>(pScenePath);
-            Node2D lObject = lScene.Instantiate<Node2D>();
-            lObject.GlobalPosition = pPos;
-            pAddTo.CallDeferred(Node.MethodName.AddChild, lObject);
-            return lObject;
-        }
+		{
+			PackedScene lScene = GD.Load<PackedScene>(pScenePath);
+			Node2D lObject = lScene.Instantiate<Node2D>();
+			lObject.GlobalPosition = pPos;
+			pAddTo.CallDeferred(Node.MethodName.AddChild, lObject);
+			return lObject;
+		}
 	}
 }

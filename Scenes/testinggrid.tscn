@@ -10,6 +10,7 @@
 script = ExtResource("1_b7nhn")
 
 [node name="GridContainer" type="TileMap" parent="."]
+position = Vector2(576, 184)
 tile_set = ExtResource("2_vamov")
 format = 2
 layer_0/name = "Ground"
