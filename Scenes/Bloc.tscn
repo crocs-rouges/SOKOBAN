@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://t8qt50tb1hhi"]
+[gd_scene load_steps=4 format=3 uid="uid://t8qt50tb1hhi"]
 
+[ext_resource type="Script" path="res://Scripts/Bloc.cs" id="1_24lmb"]
 [ext_resource type="Texture2D" uid="uid://b4j4lqn6h5171" path="res://icon.svg" id="1_d2qw1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xc1it"]
 size = Vector2(114, 116)
 
 [node name="Bloc" type="Node2D"]
+script = ExtResource("1_24lmb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 0.267572, 0.531759, 1)

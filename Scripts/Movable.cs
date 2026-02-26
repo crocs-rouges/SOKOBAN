@@ -1,38 +1,34 @@
+// Author : Romain Chevalier
 using Godot;
 using System;
-
-// Author : Romain Chevalier
-
 namespace Com.IsartDigital.SOKOBAN
 {
     public partial class Movable : Node2D
     {
         [Export] public RayCast2D rayCast;
-
+        public Vector2I logicPos;
+        private Tween movementTween;
         public virtual bool Move(Vector2I pDirection)
         {
             GridManager lGrid = GridManager.GetInstance();
-            Vector2I lPos = Utils.PositionToGridPosition(GlobalPosition);
-            Vector2I lEndPos = lPos + pDirection;
-
+            Vector2I lEndPos = logicPos + pDirection;
             Node2D lObject = lGrid.GetObjectOnGrid(lEndPos);
-
             if (lObject is Movable lMovable)
             {
                 if (!lMovable.Move(pDirection)) return false;
             }
             else if (lObject is FinishZone) { }
             else if (lObject is Casino_case) { }
-            else if (lObject is null) { } // Air/Sol simple
-            else
+            else if (lObject is null) { }
+            else return false;
+            if (lGrid.MoveOnGrid(logicPos.X, logicPos.Y, lEndPos.X, lEndPos.Y))
             {
-                // Mur ou obstacle statique
-                return false;
-            }
-
-            if (lGrid.MoveFromPos(GlobalPosition, pDirection))
-            {
-                GlobalPosition += pDirection * Utils.MAP_CASE_SCALE;
+                logicPos = lEndPos;
+                Vector2I lTilePos = lGrid.LogicToTilemapPos(logicPos);
+                Vector2 lTargetPos = lGrid.ToGlobal(lGrid.MapToLocal(lTilePos));
+                if (movementTween != null && movementTween.IsRunning()) movementTween.Kill();
+                movementTween = GetTree().CreateTween();
+                movementTween.TweenProperty(this, "global_position", lTargetPos, 0.2f);
                 return true;
             }
             return false;
@@ -44,24 +40,22 @@ namespace Com.IsartDigital.SOKOBAN
             {
                 Node2D lCollider = rayCast.GetCollider() as Node2D;
                 Node2D lParent = lCollider.GetParent() as Node2D;
-                // Check if the obstacle is Movable (like a Dice) and try to push it
                 if (lParent is Movable lMovable)
                 {
                     if (!lMovable.Move(pDirection)) return false;
                 }
                 else if (lParent is FinishZone) { }
                 else if (lParent is Casino_case) { }
-                else
-                {
-                    // Blocked by a wall or static object
-                    return false;
-                }
+                else return false;
             }
             return true;
         }
         public virtual void RotationPhysics(Vector2I pDirection)
         {
-            rayCast.TargetPosition = pDirection * Utils.MAP_CASE_SCALE;
+            GridManager lGrid = GridManager.GetInstance();
+            Vector2 lCurrentLocal = lGrid.MapToLocal(logicPos);
+            Vector2 lTargetLocal = lGrid.MapToLocal(logicPos + pDirection);
+            rayCast.TargetPosition = lTargetLocal - lCurrentLocal;
             rayCast.ForceRaycastUpdate();
         }
         public virtual void RotateRaycastRight(bool pIsTurningRight)

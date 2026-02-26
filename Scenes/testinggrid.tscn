@@ -5,21 +5,30 @@
 [ext_resource type="TileSet" uid="uid://u0idtl8dcko" path="res://Assets/basictileset.tres" id="2_vamov"]
 
 [node name="testinggrid" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource("1_b7nhn")
 
 [node name="GridContainer" type="TileMap" parent="."]
-position = Vector2(576, 184)
+y_sort_enabled = true
+position = Vector2(1886, 1049)
+scale = Vector2(8, 8)
 tile_set = ExtResource("2_vamov")
 format = 2
 layer_0/name = "Ground"
+layer_0/y_sort_enabled = true
 layer_0/z_index = -1
 layer_1/name = "Wall"
+layer_1/y_sort_enabled = true
 layer_1/tile_data = PackedInt32Array()
+layer_2/name = "PlayZone"
+layer_2/y_sort_enabled = true
+layer_2/z_index = 1
+layer_2/tile_data = PackedInt32Array()
 script = ExtResource("2_pllow")
 logicGridVisible = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(571, 315)
-zoom = Vector2(0.525, 0.525)
+position = Vector2(2060, 1097)
+zoom = Vector2(0.265, 0.265)
